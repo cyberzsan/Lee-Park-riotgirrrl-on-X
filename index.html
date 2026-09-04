@@ -1,0 +1,321 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tweet Simulation with Toggleable Comments</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Twitter icons and badges -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        twitterBg: '#121212',
+                        cardBg: '#1b1b1b',
+                        cardBorder: '#2f2f2f',
+                        accentYellow: '#facc15',
+                        textMuted: '#9ca3af'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0f0f0f;
+            color: #e5e7eb;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        /* Custom smooth transition for comment accordion */
+        .comment-container {
+            transition: max-height 0.4s ease-in-out, opacity 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .comment-container.expanded {
+            max-height: 1000px;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 sm:p-6">
+
+    <div class="w-full max-w-lg mx-auto bg-[#161616] border border-[#262626] rounded-2xl shadow-2xl p-4 sm:p-6 space-y-4">
+        
+        <!-- Header Info -->
+        <div class="text-xs text-[#a1a1aa] uppercase tracking-wider font-bold px-1 flex items-center justify-between">
+            <span>Simulated Post</span>
+            <span class="text-accentYellow"><i class="fa-solid fa-bolt mr-1"></i> Interactive View</span>
+        </div>
+
+        <div class="bg-[#1e1e1e] border border-[#2d2d2d] rounded-xl p-4 sm:p-5 space-y-3 transition hover:border-[#3d3d3d]">
+            
+            <!-- Author Row -->
+            <div class="flex items-start justify-between">
+                <div class="flex items-center space-x-3">
+                    <img src="https://t.me/c/4433792931/73" alt="Author Avatar" class="w-12 h-12 rounded-full object-cover border border-[#444]" onerror="this.src='https://placehold.co/48x48/333/fff?text=Avatar'">
+                    <div>
+                        <div class="flex items-center space-x-1">
+                            <span class="font-bold text-white text-base hover:underline cursor-pointer">this is lee park from fallen</span>
+                            <!-- Verified gold badge -->
+                            <svg class="w-4 h-4 text-[#facc15] inline-block flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M22.25 12c0-1.43-.88-2.67-2.19-3.18.52-1.35.17-2.92-.89-3.99-1.07-1.07-2.64-1.42-3.99-.89C14.67 4.88 13.43 4 12 4s-2.67.88-3.18 2.19c-1.35-.52-2.92-.17-3.99.89-1.07 1.07-1.42 2.64-.89 3.99C3.88 9.33 3 10.57 3 12s.88 2.67 2.19 3.18c-.52 1.35-.17 2.92.89 3.99 1.07 1.07 2.64 1.42 3.99.89  estilo51.51 2.19 3.18 2.19 4.67 0 1.43.88 2.67 2.19 3.18-.52 1.35-.17 2.92.89 3.99 1.07 1.07 2.64 1.42 3.99.89 1.35.52 2.92.17 3.99-.89 1.07-1.07 1.42-2.64.89-3.99 1.31-.51 2.19-1.75 2.19-3.18zM10.25 15.75l-3.5-3.5 1.41-1.41 2.09 2.09 5.09-5.09 1.41 1.41-6.5 6.5z"/>
+                            </svg>
+                        </div>
+                        <p class="text-sm text-[#9ca3af]">@riotgirrrl</p>
+                    </div>
+                </div>
+                <i class="fa-brands fa-x-twitter text-[#9ca3af] text-xl"></i>
+            </div>
+
+            <!-- Tweet Body Text -->
+            <div class="text-[#e5e7eb] text-base sm:text-lg leading-relaxed pt-1">
+                음, 안녕... This Is Why 1주년 축하해. 몇 주 느긴 했지 만... 우리가 잊었을 리가 없잖아? 언젠가를 기다려봐. 너희라면 잘 버텨내겠지 뭐. 머리는 박지 말고. ㅋ 💀
+            </div>
+
+            <!-- Translate option -->
+            <div>
+                <button class="text-accentYellow text-sm font-medium hover:underline focus:outline-none">
+                    Translate Post
+                </button>
+            </div>
+
+            <!-- Timestamp & Stats Box -->
+            <div class="pt-2 border-t border-[#2a2a2a] text-xs sm:text-sm text-[#9ca3af] space-y-2">
+                <div>5:09 AM · September 3 · <span class="text-white font-medium">389.7K</span> Views</div>
+                <div class="flex items-center space-x-6 pt-1 text-[#b4b4b4]">
+                    <span class="flex items-center space-x-1.5 hover:text-accentYellow cursor-pointer transition"><i class="fa-regular fa-comment"></i> <span class="font-semibold text-white">185K</span></span>
+                    <span class="flex items-center space-x-1.5 hover:text-green-400 cursor-pointer transition"><i class="fa-solid fa-retweet"></i> <span class="font-semibold text-white">217.1K</span></span>
+                    <span class="flex items-center space-x-1.5 hover:text-red-500 cursor-pointer transition"><i class="fa-regular fa-heart"></i> <span class="font-semibold text-white">234.7K</span></span>
+                    <span class="flex items-center space-x-1.5 hover:text-accentYellow cursor-pointer transition"><i class="fa-regular fa-bookmark"></i> <span class="font-semibold text-white">120K</span></span>
+                </div>
+            </div>
+        </div>
+
+        <button id="toggleCommentsBtn" onclick="toggleComments()" class="w-full bg-[#242424] hover:bg-[#2c2c2c] border border-[#333] rounded-xl p-3.5 flex items-center justify-between text-accentYellow font-semibold transition shadow-sm focus:outline-none">
+            <div class="flex items-center space-x-2.5">
+                <i id="toggleIcon" class="fa-solid fa-comment-dots text-lg transform transition-transform duration-300"></i>
+                <span id="toggleText">View Comments</span>
+            </div>
+            <i id="chevronIcon" class="fa-solid fa-chevron-down text-sm transition-transform duration-300"></i>
+        </button>
+
+        <div id="commentsSection" class="comment-container space-y-3 pt-1">
+            <div class="relative pl-4 sm:pl-6 border-l-2 border-[#333] ml-3 sm:ml-4 space-y-3">
+                
+                <!-- Nested Comment Tweet Card -->
+                <div class="bg-[#181818] border border-[#282828] rounded-xl p-4 sm:p-5 space-y-3">
+                    
+                    <!-- Comment Author Row -->
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center space-x-3">
+                            <img src="https://t.me/c/4433792931/74" alt="Commenter Avatar" class="w-10 h-10 rounded-full object-cover border border-[#444]" onerror="this.src='https://placehold.co/40x40/333/fff?text=Avatar'">
+                            <div>
+                                <div class="flex items-center space-x-1">
+                                    <span class="font-bold text-white text-sm sm:text-base hover:underline cursor-pointer">𝘏𝗲𝗟𝗟𝗼 𝗟𝘻𝘻𝘆ⵑ (₍₍⚞(˶ˆᗜˆ˵)⚟⁾⁾)</span>
+                                    <!-- Verified gold badge -->
+                                    <svg class="w-3.5 h-3.5 text-[#facc15] inline-block flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M22.25 12c0-1.43-.88-2.67-2.19-3.18.52-1.35.17-2.92-.89-3.99-1.07-1.07-2.64-1.42-3.99-.89C14.67 4.88 13.43 4 12 4s-2.67.88-3.18 2.19c-1.35-.52-2.92-.17-3.99.89-1.07 1.07-1.42 2.64-.89 3.99C3.88 9.33 3 10.57 3 12s.88 2.67 2.19 3.18c-.52 1.35-.17 2.92.89 3.99 1.07 1.07 2.64 1.42 3.99.89 estilo51.51 2.19 3.18 2.19 4.67 0 1.43.88 2.67 2.19 3.18-.52 1.35-.17 2.92.89 3.99 1.07 1.07 2.64 1.42 3.99.89 1.35.52 2.92.17 3.99-.89 1.07-1.07 1.42-2.64.89-3.99 1.31-.51 2.19-1.75 2.19-3.18zM10.25 15.75l-3.5-3.5 1.41-1.41 2.09 2.09 5.09-5.09 1.41 1.41-6.5 6.5z"/>
+                                    </svg>
+                                </div>
+                                <p class="text-xs sm:text-sm text-[#9ca3af]">@emokitty</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Comment Body Text -->
+                    <div class="text-[#e5e7eb] text-sm sm:text-base leading-relaxed pt-1">
+                        you always get us caught red-handed. shut your mouth stg, tf? im sick
+                    </div>
+
+                    <!-- Translate option -->
+                    <div>
+                        <button class="text-accentYellow text-xs sm:text-sm font-medium hover:underline focus:outline-none">
+                            Translate Post
+                        </button>
+                    </div>
+
+                    <!-- Comment Timestamp & Stats Box -->
+                    <div class="pt-2 border-t border-[#252525] text-xs sm:text-sm text-[#9ca3af] space-y-2">
+                        <div>05:42 AM · September 3 · <span class="text-white font-medium">236.1K</span> Views</div>
+                        <div class="flex items-center space-x-6 pt-1 text-[#b4b4b4]">
+                            <span class="flex items-center space-x-1.5 hover:text-accentYellow cursor-pointer transition"><i class="fa-regular fa-comment"></i> <span class="font-semibold text-white">69.2K</span></span>
+                            <span class="flex items-center space-x-1.5 hover:text-green-400 cursor-pointer transition"><i class="fa-solid fa-retweet"></i> <span class="font-semibold text-white">98.7K</span></span>
+                            <span class="flex items-center space-x-1.5 hover:text-red-500 cursor-pointer transition"><i class="fa-regular fa-heart"></i> <span class="font-semibold text-white">113K</span></span>
+                            <span class="flex items-center space-x-1.5 hover:text-accentYellow cursor-pointer transition"><i class="fa-regular fa-bookmark"></i> <span class="font-semibold text-white">23.8K</span></span>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let isExpanded = false;
+
+        function toggleComments() {
+            const commentsSection = document.getElementById('commentsSection');
+            const toggleText = document.getElementById('toggleText');
+            const chevronIcon = document.getElementById('chevronIcon');
+            const toggleIcon = document.getElementById('toggleIcon');
+            
+            isExpanded = !isExpanded;
+
+            if (isExpanded) {
+                commentsSection.classList.add('expanded');
+                toggleText.textContent = 'Hide Comments';
+                chevronIcon.classList.add('rotate-180');
+                toggleIcon.classList.add('scale-110', 'text-yellow-400');
+            } else {
+                commentsSection.classList.remove('expanded');
+                toggleText.textContent = 'View Comments';
+                chevronIcon.classList.remove('rotate-180');
+                toggleIcon.classList.remove('scale-110', 'text-yellow-400');
+            }
+        }
+    </script>
+</body>
+</html>
+```        </div>
+
+        <div class="bg-[#1e1e1e] border border-[#2d2d2d] rounded-xl p-4 sm:p-5 space-y-3 transition hover:border-[#3d3d3d]">
+            
+            <!-- Author Row -->
+            <div class="flex items-start justify-between">
+                <div class="flex items-center space-x-3">
+                    <img src="https://t.me/c/4433792931/73" alt="Author Avatar" class="w-12 h-12 rounded-full object-cover border border-[#444]" onerror="this.src='https://placehold.co/48x48/333/fff?text=Avatar'">
+                    <div>
+                        <div class="flex items-center space-x-1">
+                            <span class="font-bold text-white text-base hover:underline cursor-pointer">this is lee park from fallen</span>
+                            <!-- Verified gold badge -->
+                            <svg class="w-4 h-4 text-[#facc15] inline-block flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M22.25 12c0-1.43-.88-2.67-2.19-3.18.52-1.35.17-2.92-.89-3.99-1.07-1.07-2.64-1.42-3.99-.89C14.67 4.88 13.43 4 12 4s-2.67.88-3.18 2.19c-1.35-.52-2.92-.17-3.99.89-1.07 1.07-1.42 2.64-.89 3.99C3.88 9.33 3 10.57 3 12s.88 2.67 2.19 3.18c-.52 1.35-.17 2.92.89 3.99 1.07 1.07 2.64 1.42 3.99.89  estilo51.51 2.19 3.18 2.19 4.67 0 1.43.88 2.67 2.19 3.18-.52 1.35-.17 2.92.89 3.99 1.07 1.07 2.64 1.42 3.99.89 1.35.52 2.92.17 3.99-.89 1.07-1.07 1.42-2.64.89-3.99 1.31-.51 2.19-1.75 2.19-3.18zM10.25 15.75l-3.5-3.5 1.41-1.41 2.09 2.09 5.09-5.09 1.41 1.41-6.5 6.5z"/>
+                            </svg>
+                        </div>
+                        <p class="text-sm text-[#9ca3af]">@riotgirrrl</p>
+                    </div>
+                </div>
+                <i class="fa-brands fa-x-twitter text-[#9ca3af] text-xl"></i>
+            </div>
+
+            <!-- Tweet Body Text -->
+            <div class="text-[#e5e7eb] text-base sm:text-lg leading-relaxed pt-1">
+                음, 안녕... This Is Why 1주년 축하해. 몇 주 느긴 했지 만... 우리가 잊었을 리가 없잖아? 언젠가를 기다려봐. 너희라면 잘 버텨내겠지 뭐. 머리는 박지 말고. ㅋ 💀
+            </div>
+
+            <!-- Translate option -->
+            <div>
+                <button class="text-accentYellow text-sm font-medium hover:underline focus:outline-none">
+                    Translate Post
+                </button>
+            </div>
+
+            <!-- Timestamp & Stats Box -->
+            <div class="pt-2 border-t border-[#2a2a2a] text-xs sm:text-sm text-[#9ca3af] space-y-2">
+                <div>5:09 AM · September 3 · <span class="text-white font-medium">389.7K</span> Views</div>
+                <div class="flex items-center space-x-6 pt-1 text-[#b4b4b4]">
+                    <span class="flex items-center space-x-1.5 hover:text-accentYellow cursor-pointer transition"><i class="fa-regular fa-comment"></i> <span class="font-semibold text-white">185K</span></span>
+                    <span class="flex items-center space-x-1.5 hover:text-green-400 cursor-pointer transition"><i class="fa-solid fa-retweet"></i> <span class="font-semibold text-white">217.1K</span></span>
+                    <span class="flex items-center space-x-1.5 hover:text-red-500 cursor-pointer transition"><i class="fa-regular fa-heart"></i> <span class="font-semibold text-white">234.7K</span></span>
+                    <span class="flex items-center space-x-1.5 hover:text-accentYellow cursor-pointer transition"><i class="fa-regular fa-bookmark"></i> <span class="font-semibold text-white">120K</span></span>
+                </div>
+            </div>
+        </div>
+
+        <button id="toggleCommentsBtn" onclick="toggleComments()" class="w-full bg-[#242424] hover:bg-[#2c2c2c] border border-[#333] rounded-xl p-3.5 flex items-center justify-between text-accentYellow font-semibold transition shadow-sm focus:outline-none">
+            <div class="flex items-center space-x-2.5">
+                <i id="toggleIcon" class="fa-solid fa-comment-dots text-lg transform transition-transform duration-300"></i>
+                <span id="toggleText">View Comments</span>
+            </div>
+            <i id="chevronIcon" class="fa-solid fa-chevron-down text-sm transition-transform duration-300"></i>
+        </button>
+
+        <div id="commentsSection" class="comment-container space-y-3 pt-1">
+            <div class="relative pl-4 sm:pl-6 border-l-2 border-[#333] ml-3 sm:ml-4 space-y-3">
+                
+                <!-- Nested Comment Tweet Card -->
+                <div class="bg-[#181818] border border-[#282828] rounded-xl p-4 sm:p-5 space-y-3">
+                    
+                    <!-- Comment Author Row -->
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-center space-x-3">
+                            <img src="https://t.me/c/4433792931/74" alt="Commenter Avatar" class="w-10 h-10 rounded-full object-cover border border-[#444]" onerror="this.src='https://placehold.co/40x40/333/fff?text=Avatar'">
+                            <div>
+                                <div class="flex items-center space-x-1">
+                                    <span class="font-bold text-white text-sm sm:text-base hover:underline cursor-pointer">𝘏𝗲𝗟𝗟𝗼 𝗟𝘻𝘻𝘆ⵑ (₍₍⚞(˶ˆᗜˆ˵)⚟⁾⁾)</span>
+                                    <!-- Verified gold badge -->
+                                    <svg class="w-3.5 h-3.5 text-[#facc15] inline-block flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M22.25 12c0-1.43-.88-2.67-2.19-3.18.52-1.35.17-2.92-.89-3.99-1.07-1.07-2.64-1.42-3.99-.89C14.67 4.88 13.43 4 12 4s-2.67.88-3.18 2.19c-1.35-.52-2.92-.17-3.99.89-1.07 1.07-1.42 2.64-.89 3.99C3.88 9.33 3 10.57 3 12s.88 2.67 2.19 3.18c-.52 1.35-.17 2.92.89 3.99 1.07 1.07 2.64 1.42 3.99.89 estilo51.51 2.19 3.18 2.19 4.67 0 1.43.88 2.67 2.19 3.18-.52 1.35-.17 2.92.89 3.99 1.07 1.07 2.64 1.42 3.99.89 1.35.52 2.92.17 3.99-.89 1.07-1.07 1.42-2.64.89-3.99 1.31-.51 2.19-1.75 2.19-3.18zM10.25 15.75l-3.5-3.5 1.41-1.41 2.09 2.09 5.09-5.09 1.41 1.41-6.5 6.5z"/>
+                                    </svg>
+                                </div>
+                                <p class="text-xs sm:text-sm text-[#9ca3af]">@emokitty</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Comment Body Text -->
+                    <div class="text-[#e5e7eb] text-sm sm:text-base leading-relaxed pt-1">
+                        you always get us caught red-handed. shut your mouth stg, tf? im sick
+                    </div>
+
+                    <!-- Translate option -->
+                    <div>
+                        <button class="text-accentYellow text-xs sm:text-sm font-medium hover:underline focus:outline-none">
+                            Translate Post
+                        </button>
+                    </div>
+
+                    <!-- Comment Timestamp & Stats Box -->
+                    <div class="pt-2 border-t border-[#252525] text-xs sm:text-sm text-[#9ca3af] space-y-2">
+                        <div>05:42 AM · September 3 · <span class="text-white font-medium">236.1K</span> Views</div>
+                        <div class="flex items-center space-x-6 pt-1 text-[#b4b4b4]">
+                            <span class="flex items-center space-x-1.5 hover:text-accentYellow cursor-pointer transition"><i class="fa-regular fa-comment"></i> <span class="font-semibold text-white">69.2K</span></span>
+                            <span class="flex items-center space-x-1.5 hover:text-green-400 cursor-pointer transition"><i class="fa-solid fa-retweet"></i> <span class="font-semibold text-white">98.7K</span></span>
+                            <span class="flex items-center space-x-1.5 hover:text-red-500 cursor-pointer transition"><i class="fa-regular fa-heart"></i> <span class="font-semibold text-white">113K</span></span>
+                            <span class="flex items-center space-x-1.5 hover:text-accentYellow cursor-pointer transition"><i class="fa-regular fa-bookmark"></i> <span class="font-semibold text-white">23.8K</span></span>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let isExpanded = false;
+
+        function toggleComments() {
+            const commentsSection = document.getElementById('commentsSection');
+            const toggleText = document.getElementById('toggleText');
+            const chevronIcon = document.getElementById('chevronIcon');
+            const toggleIcon = document.getElementById('toggleIcon');
+            
+            isExpanded = !isExpanded;
+
+            if (isExpanded) {
+                commentsSection.classList.add('expanded');
+                toggleText.textContent = 'Hide Comments';
+                chevronIcon.classList.add('rotate-180');
+                toggleIcon.classList.add('scale-110', 'text-yellow-400');
+            } else {
+                commentsSection.classList.remove('expanded');
+                toggleText.textContent = 'View Comments';
+                chevronIcon.classList.remove('rotate-180');
+                toggleIcon.classList.remove('scale-110', 'text-yellow-400');
+            }
+        }
+    </script>
+</body>
+</html>
+```
