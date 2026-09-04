@@ -59,7 +59,7 @@
             <!-- Author Row -->
             <div class="flex items-start justify-between">
                 <div class="flex items-center space-x-3">
-                    <img src="https://t.me/c/4433792931/73" alt="Author Avatar" class="w-12 h-12 rounded-full object-cover border border-[#444]" onerror="this.src='https://t.me/c/4433792931/73'">
+                    <img src="https://t.me/c/4433792931/73" alt="Author Avatar" class="w-12 h-12 rounded-full object-cover border border-[#444]" onerror="this.src='https://placehold.co/48x48/333/fff?text=Avatar'">
                     <div>
                         <div class="flex items-center space-x-1">
                             <span class="font-bold text-white text-base hover:underline cursor-pointer">this is lee park from fallen</span>
@@ -115,7 +115,7 @@
                     <!-- Comment Author Row -->
                     <div class="flex items-start justify-between">
                         <div class="flex items-center space-x-3">
-                            <img src="https://t.me/c/4433792931/74" alt="Commenter Avatar" class="w-10 h-10 rounded-full object-cover border border-[#444]" onerror="this.src='https://t.me/c/4433792931/74'">
+                            <img src="https://t.me/c/4433792931/74" alt="Commenter Avatar" class="w-10 h-10 rounded-full object-cover border border-[#444]" onerror="this.src='https://placehold.co/40x40/333/fff?text=Avatar'">
                             <div>
                                 <div class="flex items-center space-x-1">
                                     <span class="font-bold text-white text-sm sm:text-base hover:underline cursor-pointer">𝘏𝗲𝗟𝗟𝗼 𝗟𝘻𝘻𝘆ⵑ (₍₍⚞(˶ˆᗜˆ˵)⚟⁾⁾)</span>
@@ -138,6 +138,54 @@
                     <div>
                         <button class="text-accentYellow text-xs sm:text-sm font-medium hover:underline focus:outline-none">
                             Translate Post
+                        </button>
+                    </div>
+
+                    <!-- Comment Timestamp & Stats Box -->
+                    <div class="pt-2 border-t border-[#252525] text-xs sm:text-sm text-[#9ca3af] space-y-2">
+                        <div>05:42 AM · September 3 · <span class="text-white font-medium">236.1K</span> Views</div>
+                        <div class="flex items-center space-x-6 pt-1 text-[#b4b4b4]">
+                            <span class="flex items-center space-x-1.5 hover:text-accentYellow cursor-pointer transition"><i class="fa-regular fa-comment"></i> <span class="font-semibold text-white">69.2K</span></span>
+                            <span class="flex items-center space-x-1.5 hover:text-green-400 cursor-pointer transition"><i class="fa-solid fa-retweet"></i> <span class="font-semibold text-white">98.7K</span></span>
+                            <span class="flex items-center space-x-1.5 hover:text-red-500 cursor-pointer transition"><i class="fa-regular fa-heart"></i> <span class="font-semibold text-white">113K</span></span>
+                            <span class="flex items-center space-x-1.5 hover:text-accentYellow cursor-pointer transition"><i class="fa-regular fa-bookmark"></i> <span class="font-semibold text-white">23.8K</span></span>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let isExpanded = false;
+
+        function toggleComments() {
+            const commentsSection = document.getElementById('commentsSection');
+            const toggleText = document.getElementById('toggleText');
+            const chevronIcon = document.getElementById('chevronIcon');
+            const toggleIcon = document.getElementById('toggleIcon');
+            
+            isExpanded = !isExpanded;
+
+            if (isExpanded) {
+                commentsSection.classList.add('expanded');
+                toggleText.textContent = 'Hide Comments';
+                chevronIcon.classList.add('rotate-180');
+                toggleIcon.classList.add('scale-110', 'text-yellow-400');
+            } else {
+                commentsSection.classList.remove('expanded');
+                toggleText.textContent = 'View Comments';
+                chevronIcon.classList.remove('rotate-180');
+                toggleIcon.classList.remove('scale-110', 'text-yellow-400');
+            }
+        }
+    </script>
+</body>
+</html>
+```                            Translate Post
                         </button>
                     </div>
 
